@@ -1,115 +1,70 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import Header from "@/components/Header";
+import Quote from "@/components/Quote";
+import { useState } from "react";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+export const SHREK_QUOTES = [
+  "This is the part where you run away.",
+  "Dead broad off the table!",
+  "What are you doing in my swamp?!",
+  "So, that must be Lord Farquaad's castle. Do you think maybe he's compensating for something?",
+  "Can't we just settle this over a pint?",
+  "I'm here till Thursday. Try the veal!",
+  "Onions have layers. Ogres have layers.",
+  "Sure, it's big enough, but look at the location.",
+  "That'll do, Donkey. That'll do.",
+  "The princess will be up the stairs in the highest room in the tallest tower",
+  "It's on my to-do list. Now come on!",
+  "Oh, you were expecting Prince Charming.",
+  "Hey! I'm no one's messenger boy, all right? I'm a delivery boy.",
+  "Look, I'm not the one with the problem, okay? It's the world that seems to have a problem with me.",
+  "Better out than in, I always say",
+];
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [quotes, setQuotes] = useState(SHREK_QUOTES);
+  const [quote, setQuote] = useState("");
+  const [text, setText] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleOnChange = (value: string) => {
+    setText(value);
+  };
+
+  const onSubmit = () => {
+    if (text.trim() === "") return;
+    setQuotes((prev) => {
+      const updatedQuotes = [text, ...prev];
+      setQuote(text);
+      return updatedQuotes;
+    });
+    alert("Quote added!");
+    setText("");
+  };
+
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-10 w-[1000px] bg-green-100 py-20 px-12 rounded-xl shadow-lg text-center">
+        <Header />
+        <Quote quote={quote} setQuote={setQuote} quotes={quotes} />
+        <p className="text-green-500 text-xl max-w-96 font-extrabold overflow-auto ">
+          Write your own quote:
+        </p>
+        <div className="flex flex-col items-center">
+          <div className="flex gap-4">
+            <input
+              className="px-1 py-4 text-black bg-transparent rounded-md outline-green-900 border-green-800 border-2 text-xl shadow-sm focus:bg-green-200 transition"
+              type="text"
+              value={text}
+              onChange={(event) => handleOnChange(event.target.value)}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <button
+              onClick={onSubmit}
+              className="bg-green-600 px-5 py-2 rounded hover:bg-green-700 transition"
+            >
+              Add quote
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
